@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.johnpili</groupId>
-    <artifactId>sendmail</artifactId>
+    <artifactId>java-sendmail</artifactId>
     <version>1.0.0</version>
 
     <properties>
@@ -14,8 +14,8 @@
         <org.slf4j-version>1.7.16</org.slf4j-version>
     </properties>
 
-    <name>Sendmail</name>
-    <description>A simple send email library</description>
+    <name>Java Sendmail</name>
+    <description>A simple Java send email library</description>
     <url>https://github.com/johnpili/java-sendmail.git</url>
 
     <licenses>
