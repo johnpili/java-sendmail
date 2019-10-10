@@ -5,6 +5,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -15,7 +16,7 @@ public class Sendmail implements Runnable
 {
 	private Properties properties;
 	private String from;
-	private String to;
+	private List<String> to;
 	private String subject;
 	private String textMessagePart;
 	private String htmlMessagePart;
@@ -28,7 +29,7 @@ public class Sendmail implements Runnable
 	{
 		private Properties properties;
 		private String from;
-		private String to;
+		private List<String> to;
 		private String subject;
 		private String textMessagePart;
 		private String htmlMessagePart;
@@ -47,7 +48,7 @@ public class Sendmail implements Runnable
 			return this;
 		}
 
-		public Config to(String to)
+		public Config to(List<String> to)
 		{
 			this.to = to;
 			return this;
@@ -106,8 +107,18 @@ public class Sendmail implements Runnable
 			Session session = Session.getInstance(properties);
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(from));
-			message.addRecipient(Message.RecipientType.TO,
-					new InternetAddress(to));
+
+			if (this.to == null || this.to.isEmpty())
+			{
+				throw new Exception("Empty recipient");
+			}
+
+			for (String item : to)
+			{
+				message.addRecipient(Message.RecipientType.TO,
+						new InternetAddress(item));
+			}
+
 			message.setSubject(subject);
 
 			Multipart multiPart = new MimeMultipart("alternative");
@@ -125,12 +136,7 @@ public class Sendmail implements Runnable
 			message.setContent(multiPart);
 			message.saveChanges();
 
-			Boolean authenticationRequired = false;
-			if (properties.getProperty("mail.smtp.auth").equalsIgnoreCase("true"))
-			{
-				authenticationRequired = true;
-			}
-
+			Boolean authenticationRequired = properties.getProperty("mail.smtp.auth").equalsIgnoreCase("true");
 			if (authenticationRequired)
 			{
 				Authenticator auth = new SMTPAuthenticator(this.smtpUsername, this.smtpPassword);
