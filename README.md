@@ -10,13 +10,13 @@ A simple java send email library
 Sendmail sendmail = new Sendmail.Config()
     .properties(properties)
     .from(from)
-		.to(targetRecipient)
-		.subject(subject)
-		.textMessagePart(plainTextMessage)
-		.htmlMessagePart(htmlMessage)
-		.smtpUsername(appConfig.getSmtpUsername())
-		.smtpPassword(appConfig.getSmtpPassword())
-		.build();
+	.to(targetRecipient)
+	.subject(subject)
+	.textMessagePart(plainTextMessage)
+	.htmlMessagePart(htmlMessage)
+	.smtpUsername(appConfig.getSmtpUsername())
+	.smtpPassword(appConfig.getSmtpPassword())
+	.build();
 
 new Thread(sendmail).start();
 ```
